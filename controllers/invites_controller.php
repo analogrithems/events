@@ -3,6 +3,7 @@ class InvitesController extends AppController {
 
 	var $name = 'Invites';
 	var $components = array('Email');
+	var $uses = array('Event', 'Invite');
 
         function beforeFilter(){
                 $this->LDAPAuth->allow('index','view');
@@ -74,11 +75,36 @@ class InvitesController extends AppController {
 		$this->Session->setFlash(__('Invite was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+
+
 	function admin_index() {
 		$this->log("Current User is:".print_r($this->user,1),'debug');
 		$this->Invite->recursive = 0;
 			
 		$this->set('invites', $this->paginate("Invite", array('Event.user_id'=>$this->user['User']['id'])));
+	}
+
+
+
+	function admin_view_event($uuid = false) {
+		if($uuid == false) return false;
+		
+		$this->Invite->recursive = 0;
+		//Lets see if we own the event we are trying to edit.
+		if($event = $this->Invite->Event->isOwner($uuid)){
+			if($this->user['User']['id'] == $event['Event']['user_id']){
+				$invites = $this->paginate("Invite", array('Invite.event_id'=>$event['Event']['id']));
+				$this->set('invites', $invites);
+				$this->set('event', array('uuid'=>$uuid,'id'=>$event['Event']['id']));
+			}else{
+				$this->Session->setFlash(__('Permission Denied!', true));
+				$this->redirect(array('controller'=>'events', 'action' => 'index'));
+				$this->log("You are trying to access event {$uuid} and you are not authorized.  Current user info:".print_r($this->user,1),'auth');
+			}
+		}
+
+		$this->log("Current User is:".print_r($this->user,1),'debug');
+		$this->log("Here where the invites for the event: ".print_r($invites,1),'debug');
 	}
 
 	function admin_view($id = null) {
@@ -103,8 +129,8 @@ class InvitesController extends AppController {
 		$this->set(compact('events'));
 	}
 
-	function admin_edit($id = null) {
-		if (!$id && empty($this->data)) {
+	function admin_edit($uuid = null) {
+		if (!$uuid && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid invite', true));
 			$this->redirect(array('action' => 'index'));
 		}
@@ -117,10 +143,17 @@ class InvitesController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
-			$this->data = $this->Invite->read(null, $id);
+			$this->data = $this->Invite->find('first',array('conditions'=>array('Invite.uuid'=>$uuid)));
 		}
-		$events = $this->Invite->Event->find('list');
-		$this->set(compact('events'));
+		$event = $this->Invite->Event->isOwner($this->data['Invite']['event_id'],'id');
+		if($this->user['User']['id'] == $event['Event']['user_id']){
+			//This user is the owner and has permission continue
+			$this->set(compact('events'));
+		}else{
+			$this->Session->setFlash(__('Permission Denied!', true));
+			$this->redirect(array('controller'=>'events', 'action' => 'index'));
+			return false;
+		}
 	}
 
 	function admin_delete($id = null) {

@@ -699,3 +699,10 @@ div.pageSlug label{
 	font-weight: normal;
 	display: inline;
 }
+
+table .optedOut td{
+	background-color: #ff3333;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; // first!
+	filter: alpha(opacity=50);					// second!
+	opacity: .5;
+}

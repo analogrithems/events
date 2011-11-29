@@ -41,10 +41,15 @@ class EventsController extends AppController {
 		}else{
 			return false;
 		}
-		$my_events = $this->paginate(array(
+		$my_events = $this->paginate( array(
 			'Event.user_id'=>$user_id
 			)
 		);
+		foreach($my_events as $id=>$event){
+			$my_events[$id]['Invite']['count'] = $this->Event->Invite->find('count',array('conditions'=>array('Invite.event_id'=>$event['Event']['id'])));
+			$reservation = $this->Event->Reservation->find('first',array('conditions'=>array('Reservation.event_id'=>$event['Event']['id']), 'fields'=>array("SUM(Reservation.guest_count) as count")));
+			$my_events[$id]['Reservation']['count'] = $reservation[0]['count'];
+		}
 		if(isset($this->params['requested'])){
 			return $my_events;
 		}else{

@@ -2,6 +2,7 @@
 	<h3><?php __("Events I'm Hosting");?></h3>
 <?php 
 	$myevents = $this->requestAction('events/my_events/sort:created/direction:asc/limit:10');
+	//echo "<pre>".print_r($myevents,1)."</pre>";
 	echo $this->Form->create('Event',array('action'=>'delete','controller'=>'events'));
 	echo $this->Form->input('Bulk.Action',array('type'=>'select', 'empty'=>__('Bulk Actions',true), 'options'=>array(__('Delete',true))));
 	if (!empty($myevents)):?>
@@ -10,12 +11,14 @@
                 <th><input type="checkbox" class="myevents" id="myEventGlob" onclick="toggleChecked(this.checked,'myevents')"></th>
 		<th><?php echo $this->Paginator->sort('name');?></th>
 		<th><?php echo $this->Paginator->sort('location_id');?></th>
+		<th><?php echo $this->Paginator->sort(__('Invites / R.S.V.P.',true));?></th>
 		<th><?php echo $this->Paginator->sort('date');?></th>
         </thead>
         <tfoot>
                 <th><input type="checkbox" class="myevents" id="myEventGlob" onclick="toggleChecked(this.checked,'myevents')"></th>
 		<th><?php echo $this->Paginator->sort('name');?></th>
 		<th><?php echo $this->Paginator->sort('location_id');?></th>
+		<th><?php echo $this->Paginator->sort(__('Invites / R.S.V.P.',true));?></th>
 		<th><?php echo $this->Paginator->sort('date');?></th>
         </tfoot>
         <tbody>
@@ -31,6 +34,10 @@
                         <td><input type="checkbox" class="myevents" value="<?php echo $event['Event']['id'];?>" name="data[Event][id][]"></td>
                         <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['uuid']));?></td>
                         <td><?php echo $this->Html->Link($event['Location']['name'],array('controller'=>'locations','action'=>'view',$event['Event']['location_id']));?></td>
+                        <td><?php echo $this->Html->Link($event['Invite']['count'],array('controller'=>'invites','action'=>'view_event',$event['Event']['uuid']));?>
+			/
+                        <?php echo $this->Html->Link($event['Reservation']['count'],array('controller'=>'reservations','action'=>'view_event',$event['Event']['uuid']));?></td>
+			
                         <td><?php echo $event['Event']['date'];?></td>
                 </tr>
         <?php endforeach; ?>

@@ -2,6 +2,7 @@
 class Event extends AppModel {
 	var $name = 'Event';
 	var $displayField = 'name';
+	var $recursive = 2;
 	var $validate = array(
 		'name' => array(
 			'notempty' => array(
@@ -101,5 +102,16 @@ class Event extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+
+	function isOwner($uuid = null){
+		if($uuid == null){
+			return false;
+		}
+		
+		$event = $this->find('first', array('conditions'=>array('Event.uuid'=>$uuid), 'fields'=>array('Event.user_id','Event.id')));
+		if($event) return $event;
+		else return false;
+	}
 
 }
