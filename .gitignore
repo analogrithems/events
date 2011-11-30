@@ -1,3 +1,4 @@
 plugins/*
 tmp/logs/*
 tmp/cache/*
+config/database.php
