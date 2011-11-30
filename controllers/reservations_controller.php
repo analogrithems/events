@@ -7,13 +7,12 @@ class ReservationsController extends AppController {
 
         function beforeFilter(){
                 $this->LDAPAuth->allow('index','view');
-                $user = $this->Session->read('Auth.LdapAuth');
-                $userPK = Configure::read('LDAP.User.Identifier');
-                if(isset($user[$userPK]) && !empty($user[$userPK]) ){
-                        $username = $user[$userPK];
-                        $this->requestAction('/users/existsOrCreate/'.$username);
+                if($this->RequestHandler->isAjax()){
+                    Configure::write('debug', 0);// and forget debug messages
+                    $this->layout = 'ajax'; //or try with $this->layout = '';
                 }
-        }
+                parent::beforeFilter();
+        } 
 
 	function index() {
 		$this->Reservation->recursive = 0;

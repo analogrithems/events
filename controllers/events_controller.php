@@ -4,18 +4,6 @@ class EventsController extends AppController {
 	var $name = 'Events';
 	var $components = array('DebugKit.Toolbar','Idbroker.LDAPAuth'=>array('homeLanding'=>'/'), 'Session');
 	var $helpers = array('Html', 'Form', 'Cksource', 'Ajax', 'Js'=>array('Jquery'),'Javascript');
-	var $user;
-
-        function beforeFilter(){
-                $this->LDAPAuth->allow('index','view');
-                $user = $this->Session->read('Auth.LdapAuth');
-                $userPK = Configure::read('LDAP.User.Identifier');
-                if(isset($user[$userPK]) && !empty($user[$userPK]) ){
-                        $username = $user[$userPK];
-                        $this->user = $this->requestAction('/users/existsOrCreate/'.$username);
-			$this->set('user', $this->user);
-                }
-        }
 
 	function index() {
 		$this->Event->recursive = 0;
@@ -36,7 +24,7 @@ class EventsController extends AppController {
 	}
 
 	function my_events(){
-		if(isset($this->user['User']['id']) && is_numeric($this->user['User']['id'])){
+		if(isset($this->user['User']['id']) && !empty($this->user['User']['id'])){
 			$user_id = $this->user['User']['id'];
 		}else{
 			return false;
@@ -58,7 +46,7 @@ class EventsController extends AppController {
 	}
 	
 	function events_by_location(){
-                if(isset($this->user['User']['id']) && is_numeric($this->user['User']['id'])){
+                if(isset($this->user['User']['id']) && !empty($this->user['User']['id'])){
                         $user_id = $this->user['User']['id'];
                 }else{
                         return false;
@@ -73,7 +61,7 @@ class EventsController extends AppController {
         }
 
 	function events_by_user(){
-                if(isset($this->user['User']['id']) && is_numeric($this->user['User']['id'])){
+                if(isset($this->user['User']['id']) && !empty($this->user['User']['id'])){
                         $user_id = $this->user['User']['id'];
                 }else{
                         return false;
@@ -103,7 +91,7 @@ class EventsController extends AppController {
 				//add all the invites
 				$emails = explode("\n",$this->data['Invites']['email']);
 				foreach($emails as $address){
-					$this->data['Invite'][] = array('email'=>$address,'sent'=>'No','uuid'=>String::uuid());
+					$this->data['Invite'][] = array('email'=>$address,'sent'=>'No');
 				}
 				unset($this->data['Invites']);
 				$this->log("Guest Where listed:".print_r($this->data['Invite'],1),'debug');
@@ -111,7 +99,6 @@ class EventsController extends AppController {
 				$this->log("Guest Where not listed:".print_r($this->data['Invite'],1),'debug');
 				$addEmails = false;
 			}
-			$this->data['Event']['uuid'] = String::uuid();
 			unset($this->Event->Invite->validate['event_id']);
 			$this->log("Trying to do a big add:".print_r($this->data,1),'debug');
 			$this->Event->create();
@@ -136,11 +123,23 @@ class EventsController extends AppController {
 		if (!empty($this->data)) {
 			if(isset($this->user['User']['id'])){
 				$this->data['Event']['user_id'] = $this->user['User']['id'];
-				if ($this->Event->save($this->data)) {
+				if(isset($this->data['Invites']['email']) && !empty($this->data['Invites']['email'])){
+					//add all the invites
+					$emails = explode("\n",$this->data['Invites']['email']);
+					foreach($emails as $address){
+						$this->data['Invite'][] = array('email'=>$address,'sent'=>'No', 'event_id'=>$id);
+					}
+					unset($this->data['Invites']);
+					$this->log("Guest Where listed:".print_r($this->data['Invite'],1),'debug');
+				}else{
+					$this->log("Guest Where not listed:".print_r($this->data['Invite'],1),'debug');
+					$addEmails = false;
+				}
+				if ($sar = $this->Event->saveAll($this->data,array('atomic'=>false))) {
 					$this->Session->setFlash(__('The event has been saved', true));
 					$this->redirect(array('action' => 'index'));
 				} else {
-					$this->Session->setFlash(__('The event could not be saved. Please, try again.', true));
+					$this->Session->setFlash(__('The event could not be saved. Please, try again. Sar was'.print_r($sar,1).':validation errors where:'.print_r($this->Event->validationErrors,1).':invite validation errors:'.print_r($this->Event->Invite->validationErrors.': Data was:'.print_r($this,1),1), true),'default',array('class'=>'error-message'));
 				}
 			}else{
 				$this->Session->setFlash(__('You Are not Authorized to do this',true));

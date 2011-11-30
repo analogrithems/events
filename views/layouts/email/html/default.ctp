@@ -29,7 +29,7 @@
 
 	<p>This email was sent using Event Notifier & Guest Tracker
 If You no longer want to recieve emails from the Event Notifier & Guest Tracker
-Click the following link to <?php echo $this->Html->link('Opt Out',array('controller'=>'Invites', 'action'=>'optOut',$uuid));?> 
+Click the following link to <?php echo $this->Html->link('Opt Out',array('controller'=>'Invites', 'action'=>'optOut',$id));?> 
 	</p>
 </body>
 </html>

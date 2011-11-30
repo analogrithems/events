@@ -1,4 +1,4 @@
-<div id="myevents" class="widget_box doubleWide">
+<div id="myevents" class="widget_box fuller">
 	<h3><?php __("Events I'm Hosting");?></h3>
 <?php 
 	$myevents = $this->requestAction('events/my_events/sort:created/direction:asc/limit:10');
@@ -32,11 +32,24 @@
                 ?>
                 <tr<?php echo $class;?>>
                         <td><input type="checkbox" class="myevents" value="<?php echo $event['Event']['id'];?>" name="data[Event][id][]"></td>
-                        <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['uuid']));?></td>
+                        <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['id']));?></td>
                         <td><?php echo $this->Html->Link($event['Location']['name'],array('controller'=>'locations','action'=>'view',$event['Event']['location_id']));?></td>
-                        <td><?php echo $this->Html->Link($event['Invite']['count'],array('controller'=>'invites','action'=>'view_event',$event['Event']['uuid']));?>
+                        <td><?php 
+				if($event['Invite']['count'] > 0){		
+					echo $this->Html->Link($event['Invite']['count'],array('controller'=>'invites','action'=>'view_event',$event['Event']['id']));
+				}else{
+					echo 0;
+				}
+			?>
 			/
-                        <?php echo $this->Html->Link($event['Reservation']['count'],array('controller'=>'reservations','action'=>'view_event',$event['Event']['uuid']));?></td>
+                        <?php 
+				if($event['Reservation']['count']){
+					echo $this->Html->Link($event['Reservation']['count'],array('controller'=>'reservations','action'=>'view_event',$event['Event']['id']));
+				}else{
+					echo 0;
+				}
+	
+			?></td>
 			
                         <td><?php echo $event['Event']['date'];?></td>
                 </tr>

@@ -5,16 +5,15 @@
 		});
 	});
 	function editInviteEmail(url){
-		alert(url);
 		    $('<div>').dialog({
 			modal: true,
 			open: function ()
 			{
 			    $(this).load(url);
 			},         
-			height: 400,
-			width: 600,
-			title: '<?php __('Edit Email Invite');?>';
+			height: 260,
+			width: 400,
+			title: '<?php __('Edit Invite Email');?>'
 		    });
 		return false;
 	}
@@ -27,14 +26,16 @@
 <div id="tabs" class="trippleWide">
         <ul>
            <li><a href="#myinvites"><?php __('Invites');?></a></li>
-           <li><?php echo $this->Html->link(__('R.S.V.P.',true),array('controller'=>'reservations', 'action'=>'view_event',$event['uuid']));?></li>
+           <li><?php echo $this->Html->link(__('R.S.V.P.',true),array('controller'=>'reservations', 'action'=>'view_event',$event['id']));?></li>
         </ul>
 
 	<div id="myinvites" class="widget_box trippleWide">
 		<h2><?php __('Invites');?></h2>
 		<?php
-			echo $this->Form->create('Invite');
-			echo $this->Form->input(__('Bulk Action',true), array('type'=>'select', 'options'=>array('resend'=>__('Resend Invites',true),'delete'=>__('Delete Invites',true))));
+			echo $this->Form->create('Invite',array('action'=>'bulkUpdate'));
+			echo $this->Form->input('event.id', array('type'=>'hidden', 'value'=>$event['id']));
+			echo $this->Form->input('cmd', array('label'=>__('Bulk Update',true), 'type'=>'select', 'options'=>array('0'=>__('Bulk Update',true),
+				'resend'=>__('Resend Invites',true),'delete'=>__('Delete Invites',true))));
 		?>
 		<table cellpadding="0" cellspacing="0">
 		<thead>
@@ -71,19 +72,26 @@
 			}
 		?>
 		<tr class="<?php echo $class;?>">
-			<td><input type="checkbox" class="myinvites" name="data[invite][uuid][]" value="<?php echo $invite['Invite']['uuid']; ?>"></td>
-			<td><?php echo $this->Html->link($invite['Invite']['email'], '#', array('onclick'=>"editInviteEmail('".$this->Html->url(array('controller'=>'Invite', 'action' => 'edit', $invite['Invite']['uuid']))."'"));?></td>
+			<td><input type="checkbox" class="myinvites" name="data[Invite][id][]" value="<?php echo $invite['Invite']['id']; ?>"></td>
+			<td><?php echo $this->Html->link($invite['Invite']['email'], '#', array('onclick'=>"editInviteEmail('".
+				$this->Html->url(array('controller'=>'Invites', 'action' => 'edit', $invite['Invite']['id'],$event['id']))."')"));?></td>
 			
 			
 			<td class='<?php echo $sentClass;?>'><?php echo $sent;?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('Resend', true), array('controller'=>'Invite', 'action' => 'resend', $invite['Invite']['uuid']));?>
-				<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $invite['Invite']['uuid']), null, sprintf(__('Are you sure you want to delete # %s?', true), $invite['Invite']['id'])); ?>
+				<?php echo $this->Html->link(__('Resend', true), array('controller'=>'Invites', 'action' => 'resend', $invite['Invite']['id'],$event['id']));?>
+				<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $invite['Invite']['id'],$event['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $invite['Invite']['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 		</tbody>
 		</table>
+		<div class="bulkOptions">
+			<span>
+			<?php
+			echo $this->Form->end(__('Update', true));?>
+			</span>
+		</div>
 		<p>
 		<?php
 		echo $this->Paginator->counter(array(

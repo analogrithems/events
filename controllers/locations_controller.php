@@ -5,16 +5,11 @@ class LocationsController extends AppController {
 
         function beforeFilter(){
                 $this->LDAPAuth->allow('index','view');
-                $user = $this->Session->read('Auth.LdapAuth');
-                $userPK = Configure::read('LDAP.User.Identifier');
-                if(isset($user[$userPK]) && !empty($user[$userPK]) ){
-                        $username = $user[$userPK];
-                        $this->requestAction('/users/existsOrCreate/'.$username);
-                }
 		if($this->RequestHandler->isAjax()){
 		    Configure::write('debug', 0);// and forget debug messages
 		    $this->layout = 'ajax'; //or try with $this->layout = '';
 		}
+                parent::beforeFilter();
         }
 
 	function index() {
@@ -48,7 +43,7 @@ class LocationsController extends AppController {
 			$this->Location->create();
 			if ($this->Location->save($this->data)) {
 				$this->Session->setFlash(__('The location has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller'=>'events', 'action' => 'add'));
 			} else {
 				$this->Session->setFlash(__('The location could not be saved. Please, try again.', true));
 			}

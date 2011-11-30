@@ -6,8 +6,8 @@ class Invite extends AppModel {
 
 	var $validate = array(
 		'event_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'uuid' => array(
+				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

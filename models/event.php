@@ -25,8 +25,8 @@ class Event extends AppModel {
 			),
 		),
 		'location_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'uuid' => array(
+				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -45,8 +45,8 @@ class Event extends AppModel {
 			),
 		),
 		'user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'uuid' => array(
+				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -104,12 +104,12 @@ class Event extends AppModel {
 	);
 
 
-	function isOwner($uuid = null){
-		if($uuid == null){
+	function isOwner($id = null){
+		if($id == null){
 			return false;
 		}
 		
-		$event = $this->find('first', array('conditions'=>array('Event.uuid'=>$uuid), 'fields'=>array('Event.user_id','Event.id')));
+		$event = $this->find('first', array('conditions'=>array('Event.id'=>$id), 'fields'=>array('Event.user_id','Event.id')));
 		if($event) return $event;
 		else return false;
 	}

@@ -4,45 +4,13 @@ class UsersController extends AppController {
 	var $name = 'Users';
 
         function beforeFilter(){
-                $this->LDAPAuth->allow('index','view', 'existsOrCreate');
-		if(isset($this->params['action']) && $this->params['action'] != 'existsOrCreate'){
-			$user = $this->Session->read('Auth.LdapAuth');
-			$userPK = Configure::read('LDAP.User.Identifier');
-			if(isset($user[$userPK]) && !empty($user[$userPK]) ){
-				$username = $user[$userPK];
-				$this->user = $this->requestAction('/users/existsOrCreate/'.$username);
-			}
-		}
-        }
-
-	function existsOrCreate($username=false){
-		$user = $this->Session->read('Auth.LdapAuth');
-		if(isset($user) && !empty($user) ){
-			$username  = ($username) ? $username : $user[$this->User->usernameAttr];
-			$results = $this->User->find('first', array('recursive'=>1,'conditions'=>array('username'=>$username)));
-			if(isset($results['User']['username'])){
-				return $results;//User Exists, return the record and keep going.
-			}else{
-				$this->User->create(); //User doesn't exists, grab it from the auth session and add it to the user table
-				if(isset($user['displayname']) && !empty($user['displayname'])) $u['displayname'] = $user['displayname'];
-				if(isset($user['dn']) && !empty($user['dn']) ) $u['dn'] = $user['dn'];
-				if(isset($username) && !empty($username) ) $u['username'] = $username;
-				if(isset($user['mail']) && !empty($user['mail']) ) $u['email'] = $user['mail'];
-			        //so that it will get a id number for the foreign keys
-				if($this->User->save($u)){
-					$results = $this->User->find('first', array('recursive'=>1,'conditions'=>array('username'=>$username)));
-					if (!empty($this->params['requested'])) {
-						return $results;
-					}else{
-						set(compact($results));
-					}
-				}else{
-					return false;
-				}
-			}
-		}
-		return false;
-	}
+                $this->LDAPAuth->allow('index','view');
+                if($this->RequestHandler->isAjax()){
+                    Configure::write('debug', 0);// and forget debug messages
+                    $this->layout = 'ajax'; //or try with $this->layout = '';
+                }
+                parent::beforeFilter();
+        } 
 
 	function index() {
 		$this->User->recursive = 0;

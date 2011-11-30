@@ -17,9 +17,7 @@
 <div class="actions">
 	<span>
 	<ul>
-		<li><?php echo $this->Html->link(__('List Events', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Locations', true), array('controller' => 'locations', 'action' => 'index')); ?> </li>
-		<li><strong><?php __('Actions'); ?></strong></li>
+		<li><?php echo $this->Html->link(__('Edit Event', true), array('controller'=>'events', 'action' => 'edit',$event['Event']['id'])); ?> </li>
 	</ul>
 	</span>
 </div>

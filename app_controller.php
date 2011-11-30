@@ -33,4 +33,11 @@
 class AppController extends Controller {
 	var $helpers = array('Session', 'Javascript', 'Ajax', 'Html', 'Form');
 	var $components = array('DebugKit.Toolbar', 'Idbroker.LDAPAcl'=>array('groupType'=>'group'), 'Idbroker.LDAPAuth'=>array('homeLanding'=>'/'), 'Session', 'RequestHandler');
+
+        var $user;
+
+        function beforeFilter(){
+                $this->user['User'] = $this->Session->read('User');
+                $this->set('user', $this->user);
+        }
 }

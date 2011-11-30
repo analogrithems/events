@@ -10,6 +10,7 @@
 		
 		$addLoc =  __(' Or Add ',true).$this->Html->link(__('New Location', true), array('controller' => 'locations', 'action' => 'add'),array('class'=>'ajaxLinkLoad','alt'=>__('Create new Location',true)));
 		echo $this->Form->input('location_id',array('div'=>'flow', 'after'=>$addLoc))."\n";
+		echo $this->Form->input('id',array('type'=>'hidden'));
 	?>
 		<div class="clear"></div>
 		<div class="flow">  <input type='text'  class="clearMeFocus small" value="<?php echo (isset($this->data['Event']['date'])) ? $this->data['Event']['date'] : __('Date:',true);?>" id='date' name='data[Event][date]'></div>
@@ -29,7 +30,7 @@
 		</div>
 	</fieldset>
 <?php
-		echo $this->Form->end(array('label'=>'Add Event','class'=>'blue_button', 'div'=>array('class'=>'button')))."\n";
+		echo $this->Form->end(array('label'=>'Update Event','class'=>'blue_button', 'div'=>array('class'=>'button')))."\n";
 		echo $cksource->end()."\n";
 ?>
 </div>

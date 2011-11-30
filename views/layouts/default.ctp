@@ -29,7 +29,7 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-                echo $this->Html->script('jquery-1.4.2.min');
+                echo $this->Html->script('jquery.min.js');
                 echo $this->Html->script('events');
                 echo $this->Html->script('jquery-ui-custom.min');
                 echo $this->Html->css('jquery-ui-custom.css');

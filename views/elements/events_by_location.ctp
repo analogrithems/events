@@ -1,4 +1,4 @@
-<div id="eventsByLocation" class="widget_box doubleWide">
+<div id="eventsByLocation" class="widget_box fuller">
 	<h3><?php __("Events By Location");?></h3>
 <?php 
 	$eventsByLocation = $this->requestAction('events/events_by_location/sort:created/direction:asc/limit:10');
@@ -29,7 +29,7 @@
                 ?>
                 <tr<?php echo $class;?>>
                         <td><input type="checkbox" class="eventsByLocation" value="<?php echo $event['Event']['id'];?>" name="data[Event][id][]"></td>
-                        <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['uuid']));?></td>
+                        <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['id']));?></td>
                         <td><?php echo $this->Html->Link($event['Location']['name'],array('controller'=>'locations','action'=>'view',$event['Event']['location_id']));?></td>
                         <td><?php echo $event['Event']['date'];?></td>
                 </tr>

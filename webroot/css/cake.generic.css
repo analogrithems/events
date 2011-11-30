@@ -350,14 +350,30 @@ div.message {
 	font-size: 140%;
 	font-weight: bold;
 	margin: 0 0 1em 0;
-	background: #c73e14;
+	background: #4D90FE;
+	border: 1px solid #3079ED;
 	padding: 5px;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+	padding: 4px;
+	font-size: 15px;
+	margin: 0 1.5em 1.2em 0;
+	line-height: 29px vertical-align: bottom;
+	background-image: -moz-linear-gradient(center top , #4D90FE, #3079ED);
+	display: table;
 }
 div.error-message {
 	clear: both;
 	color: #fff;
 	font-weight: bold;
-	background: #c73e14;
+	background: #FA5858;
+	border: 1px solid #FE2E2E;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+	padding: 4px;
+	font-size: 15px;
+	margin: 0 1.5em 1.2em 0;
+	line-height: 29px vertical-align: bottom;
+	background-image: -moz-linear-gradient(center top , #FA5858, #FE2E2E);
+	display: table;
 }
 p.error {
 	background-color: #e32;
@@ -660,6 +676,10 @@ input[type=submit]:hover,
 .trippleWide{
 	width: 800px;
 	display: inline-block;
+}
+.fuller{
+	width: 90%;
+	margin: 0 auto;
 }
 .left{
 	float: left;

@@ -4,8 +4,8 @@ class Reservation extends AppModel {
 	var $displayField = 'name';
 	var $validate = array(
 		'event_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+                        'uuid' => array(
+                                'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -14,8 +14,8 @@ class Reservation extends AppModel {
 			),
 		),
 		'guest_count' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+                        'uuid' => array(
+                                'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

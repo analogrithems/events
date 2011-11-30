@@ -28,7 +28,7 @@
 		<td><?php echo $invite['Invite']['opted_out']; ?>&nbsp;</td>
 		<td><?php echo $invite['Invite']['modified']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $invite['Invite']['uuid']), null, sprintf(__('Are you sure you want to delete # %s?', true), $invite['Invite']['id'])); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $invite['Invite']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $invite['Invite']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

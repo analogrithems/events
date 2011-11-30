@@ -22,4 +22,4 @@
 
 This email was sent using Event Notifier & Guest Tracker
 If You no longer want to recieve emails from the Event Notifier & Guest Tracker
-Use the following URL to opt out <?php echo $this->Html->Url(array('controller'=>'Invites', 'action'=>'optOut',$uuid));?>
+Use the following URL to opt out <?php echo $this->Html->Url(array('controller'=>'Invites', 'action'=>'optOut',$id));?>

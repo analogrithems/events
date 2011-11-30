@@ -25,8 +25,8 @@ class Page extends AppModel {
 			),
 		),
 		'user_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			'uuid' => array(
+				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

@@ -1,5 +1,5 @@
-<div id="eventsByUser" class="widget_box doubleWide">
-	<h3><?php __("Events I'm Hosting");?></h3>
+<div id="eventsByUser" class="widget_box fuller">
+	<h3><?php __("Events by User");?></h3>
 <?php 
 	$eventsByUser = $this->requestAction('events/events_by_user/sort:created/direction:asc/limit:10');
 	echo $this->Form->create('Event',array('action'=>'delete','controller'=>'events'));
@@ -29,7 +29,7 @@
                 ?>
                 <tr<?php echo $class;?>>
                         <td><input type="checkbox" class="eventsByUser" value="<?php echo $event['Event']['id'];?>" name="data[Event][id][]"></td>
-                        <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['uuid']));?></td>
+                        <td><?php echo $this->Html->Link($event['Event']['name'],array('controller'=>'events','action'=>'view',$event['Event']['id']));?></td>
                         <td><?php echo $this->Html->Link($event['Location']['name'],array('controller'=>'locations','action'=>'view',$event['Event']['location_id']));?></td>
                         <td><?php echo $event['Event']['date'];?></td>
                 </tr>

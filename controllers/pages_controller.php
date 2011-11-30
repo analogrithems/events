@@ -62,14 +62,12 @@ class PagesController extends AppController {
 
         function beforeFilter(){
                 $this->LDAPAuth->allow('index','view', 'display');
-                $user = $this->Session->read('Auth.LdapAuth');
-                $userPK = Configure::read('LDAP.User.Identifier');
-                if(isset($user[$userPK]) && !empty($user[$userPK]) ){
-                        $username = $user[$userPK];
-                        $this->user = $this->requestAction('/users/existsOrCreate/'.$username);
-                        $this->set('user', $this->user);
+                if($this->RequestHandler->isAjax()){
+                    Configure::write('debug', 0);// and forget debug messages
+                    $this->layout = 'ajax'; //or try with $this->layout = '';
                 }
-        }
+                parent::beforeFilter();
+        } 
 
         function admin_view($id) {
             $this->Page->id = $id;
