@@ -22,7 +22,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('CakePHP: the rapid development php framework:'); ?>
+		<?php __('Event Tracker & Guest Notifier'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -63,6 +63,12 @@
 
 		</div>
 		<div id="footer">
+			<?php echo $this->Html->link(
+					$this->Html->image('analogrithems.png', array('alt'=> __('Another Analogrithem!', true), 'border' => '0')),
+					'http://www.analogrithems.com/',
+					array('target' => '_blank', 'escape' => false)
+				);
+			?><br />
 			<?php echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt'=> __('CakePHP: the rapid development php framework', true), 'border' => '0')),
 					'http://www.cakephp.org/',

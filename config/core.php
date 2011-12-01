@@ -232,3 +232,5 @@
 //Ldap Config
 Configure::load('ldap');
 Configure::write('Usage', 'Private'); //Private or Public.  If Public anyone can singup and send events, if Private only your created users can send.
+Configure::write('Email.Format', 'html'); //Should Email invites be sent in html or text?
+Configure::write('Events.URL', 'http://vault.asynonymous.net/events'); //Should Email invites be sent in html or text?

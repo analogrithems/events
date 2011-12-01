@@ -4,6 +4,7 @@ class ReservationsController extends AppController {
 	var $name = 'Reservations';
         var $components = array('DebugKit.Toolbar','Idbroker.LDAPAuth'=>array('homeLanding'=>'/'), 'Session', );
         var $helpers = array('Html', 'Form', 'Cksource', 'Ajax', 'Js'=>array('Jquery'),'Javascript');
+	var $uses = array('Reservation', 'Event', 'Invite');
 
         function beforeFilter(){
                 $this->LDAPAuth->allow('index','view');
@@ -41,7 +42,8 @@ class ReservationsController extends AppController {
 		}
 		$events = $this->Reservation->Event->find('list');
 		if(!is_null($id)){
-			$this->set('event', $this->Reservation->Event->read(null,$id));
+			$invite = $this->Invite->find('first',array('conditions'=>array('Invite.id'=>$id)));
+			$this->set('event', $this->Reservation->Event->read(null,$invite['Invite']['event_id']));
 			$this->set('id',$id);
 		}
 		$this->set(compact('events'));

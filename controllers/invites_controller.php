@@ -6,9 +6,17 @@ class InvitesController extends AppController {
 	var $uses = array('Event', 'Invite');
 
         function beforeFilter(){
-                $this->LDAPAuth->allow('index','view');
+                $this->LDAPAuth->allow('index','view','sendInvite', 'optOut');
 		parent::beforeFilter();
         }
+
+	function optOut($id=null){
+		if(!$id) return false;
+		$invitee = $this->Invite->read(null, $id);
+		$invitee['Invite']['opted_out'] = 'Yes';
+		$this->Invite->save($invitee);
+		$this->set('invitee', $invitee);
+	}
 
 	function view($id = null) {
 		if (!$id) {
@@ -139,23 +147,33 @@ class InvitesController extends AppController {
 		$this->log("Calling sendInvite",'debug');
 		if($id == null) return false;
 		$invitee = $this->Invite->read(null,$id);
-		$this->log("Sending Email:".print_r($invitee,1),'debug');
-		$this->Email->delivery = 'smtp';
-		$this->Email->to = $invitee['Invite']['email'];
-		$this->Email->subject = $invitee['Event']['name'];
-		$this->Email->from = $invitee['User']['email'];
 		
-		//Change the following to a configure var
+		if($invitee['Invite']['sent'] == 'Yes' || $invitee['Invite']['opted_out'] == 'Yes') return false;
+		//$this->Email->delivery = 'debug';
+		$this->Email->sendAs = Configure::read('Email.Format');
+		$this->Email->subject = $invitee['Event']['name'];
+		$this->Email->from = $invitee['Event']['User']['email'];
 		$this->Email->replyTo = 'no-reply@asynonymous.net';
+		$this->Email->to = $invitee['Invite']['email'];
+		$this->Email->tempalte = 'invite';
+		$this->set('content', $invitee['Event']['details']);
+		$this->set('url', Configure::read('Events.URL'));
+		$this->set('id', $invitee['Invite']['id']);
+		$this->set('invitee', $invitee);
 
-		//Change this to use templates for var interpolation
-		$this->set('content', $invitee['User']['details']);
-		$this->set('id', $invitee['User']['id']);
-		$this->Email->send();
-			
-		//Update Status
-		$invitee['Invite']['sent'] = 'yes';
-		$this->Invite->save($invitee);
+		//Lets send the email
+		$sent = $this->Email->send($invitee['Event']['details'],'invite');
+		$this->log("Email Log:".print_r($this->Email->smtpError,1),'debug');
+		if($sent){
+			$this->log("Sent email to:".$invitee['Invite']['email'],'debug');
+			$invitee['Invite']['sent'] = 'Yes';
+			$this->Invite->save($invitee);
+		}else{
+			$error = !empty($this->Email->smtpError) ? $this->Email->smtpError : '';
+			$this->log("Failed to send to:". $invitee['Invite']['email']. ":".print_r($error,1).":".print_r($invitee,1),'error');
+		}
+
+		$this->Email->reset();
 		return true;
 	}
 

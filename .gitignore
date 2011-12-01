@@ -1,4 +1,5 @@
 plugins/*
 tmp/logs/*
-tmp/cache/*
+tmp/cache/models/*
+tmp/cache/persistent/*
 config/database.php
