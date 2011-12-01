@@ -20,6 +20,12 @@
 
 <?php echo $content_for_layout;?>
 
+<?php   
+        if($invitee['Event']['has_reservations'] == 'Yes'){
+		__('To R.S.V.P. for this event got to the following URL. ');
+		echo $url.'/reservations/add/'.$id;
+        }
+?>
 This email was sent using Event Notifier & Guest Tracker
 If You no longer want to recieve emails from the Event Notifier & Guest Tracker
 Use the following URL to opt out <?php echo $this->Html->Url(array('controller'=>'Invites', 'action'=>'optOut',$id));?>

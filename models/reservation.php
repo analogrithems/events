@@ -6,17 +6,17 @@ class Reservation extends AppModel {
 		'event_id' => array(
                         'uuid' => array(
                                 'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
+				'message' => 'Internal Error with the event pointer.  Contact Support',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'guest_count' => array(
+		'invite_id' => array(
                         'uuid' => array(
                                 'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
+				'message' => 'Internal Error with the event pointer.  Contact Support',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -26,7 +26,17 @@ class Reservation extends AppModel {
 		'name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
+				'message' => "Please give type your name, this will be used for the guest list.",
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'guest_count' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				'message' => "How many people (including you) will be attending?",
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -36,7 +46,7 @@ class Reservation extends AppModel {
 		'email' => array(
 			'email' => array(
 				'rule' => array('email'),
-				//'message' => 'Your custom message here',
+				'message' => "Please give your email address.",
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -50,6 +60,13 @@ class Reservation extends AppModel {
 		'Event' => array(
 			'className' => 'Event',
 			'foreignKey' => 'event_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Invite' => array(
+			'className' => 'Invite',
+			'foreignKey' => 'invite_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

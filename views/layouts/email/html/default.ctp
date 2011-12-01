@@ -27,13 +27,19 @@
 <body>
 	<?php echo $content_for_layout;?>
 
+<?php
+	if($invitee['Event']['has_reservations'] == 'Yes'){
+?>
 	<span style="font: 14pt;">
-	<p><?php
-		__('To R.S.V.P. for this event click ');
-		echo $this->Html->link('Here.',$url.'/reservations/add/'.$id); ?>
-	?>
-	</p>
+		<p><?php
+			__('To R.S.V.P. for this event click ');
+			echo $this->Html->link('Here.',$url.'/reservations/add/'.$id); ?>
+		?>
+		</p>
 	</span>
+<?php
+	}
+?>
 	<p>This email was sent using Event Notifier & Guest Tracker
 If You no longer want to recieve emails from the Event Notifier & Guest Tracker
 Click the following link to <?php echo $this->Html->link('Opt Out',$url.'/Invites/optOut/'.$id);?> 

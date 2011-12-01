@@ -24,7 +24,8 @@
 		</div>
 		<div class="eventForm">
 		<?php
-			echo $this->Form->hidden('event_id',array('value'=>$id));
+			echo $this->Form->hidden('event_id',array('value'=>$event['Event']['id']));
+			echo $this->Form->hidden('invite_id',array('value'=>$id));
 			echo $this->Form->input('guest_count', array('div'=>'guestCount', 'value'=>1, 'after'=>'<div class="arrow-up"></div><div class="arrow-down"></div>'));
 			echo $this->Form->input('name');
 			echo $this->Form->input('email');
