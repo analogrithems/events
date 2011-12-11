@@ -72,10 +72,9 @@ class PagesController extends AppController {
         function admin_view($id) {
             $this->Page->id = $id;
             $post = $this->Page->read();
-            $undo_rev = $this->Page->previous();
-            $history = $this->Page->revisions();
+            $revisions = $this->Page->revisions($id);
             $users = $this->Page->User->find('list');
-            $this->set(compact('post','undo_rev','history','users'));
+            $this->set(compact('post','revisions','users'));
         }
 	// [..] 
 	function admin_undo($id) { 
@@ -104,7 +103,7 @@ class PagesController extends AppController {
 		$this->set(compact('users'));
 	}
 
-	function admin_edit($id = null,$version_id = null) {
+	function admin_edit($id = null) {
 		$this->Page->id = $id; //important for read,shadow and revisions call bellow 
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid page', true));
@@ -119,15 +118,11 @@ class PagesController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
-			if (is_numeric($version_id)) { 
-			    $this->data = $this->Page->shadow('first',array('conditions' => array('version_id' => $version_id))); 
-			} else { 
-			    $this->data = $this->Page->read(); 
-			} 
+		    $this->data = $this->Page->read(); 
 		}
 		$users = $this->Page->User->find('list');
-		$history = $this->Page->revisions(); 
-		$this->set(compact('users','history')); 
+		$rev = $this->Page->revisions($id);
+		$this->set(compact('users','revisions')); 
 	}
 
 	function admin_delete($id = null) {

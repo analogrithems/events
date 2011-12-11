@@ -2,6 +2,8 @@
 class Page extends AppModel {
 	var $name = 'Page';
 	var $displayField = 'title';
+	//var $actAs = array('Permissionable.Permissionable' => array('defaultBits'=>480), 'Revisionable.Revisionable');
+	var $actAs = array('Revisionable.Revisionable');
 
 	var $validate = array(
 		'slug' => array(

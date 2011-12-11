@@ -9,14 +9,12 @@
 			<th><input type="checkbox" class="mypages" id="myPagesGlob" onclick="toggleChecked(this.checked,'mypages')"></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort(__('Author',true),'user_id');?></th>
-			<th><?php echo $this->Paginator->sort('access');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 	</thead>
 	<tfoot>
 			<th><input type="checkbox" class="mypages" id="myPagesGlob" onclick="toggleChecked(this.checked,'mypages')"></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort(__('Author',true),'user_id');?></th>
-			<th><?php echo $this->Paginator->sort('access');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 	</tfoot>
 	<tbody>
@@ -34,7 +32,6 @@
 		<td>
 			<?php echo $this->Html->link($page['User']['username'], array('controller' => 'users', 'action' => 'view', $page['User']['id'])); ?>
 		</td>
-		<td><?php echo $page['Page']['access']; ?>&nbsp;</td>
 		<td><?php echo $page['Page']['created']; ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>

@@ -33,7 +33,7 @@
 	<span style="font: 14pt;">
 		<p><?php
 			__('To R.S.V.P. for this event click ');
-			echo $this->Html->link('Here.',$url.'/reservations/add/'.$id); ?>
+			echo $this->Html->link('Here.',$url.'/reservations/add/'.$id);
 		?>
 		</p>
 	</span>

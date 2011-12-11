@@ -9,12 +9,11 @@
 		<legend><?php __('Create Page'); ?></legend>
 		<div class="widget right">
 	<?php
-		echo $this->Form->input('access',array('type'=>'select', 'options'=>array('Private','My Groups', 'Public')));
 	?></div><div class="trippleWide">
 	<?php
 		echo $this->Form->input('title');
 		$proto = (isset($_SERVER['HTTPS'])) ? 'https://' : 'http://';
-		$siteprefix = $proto.$_SERVER['SERVER_NAME'].'/'.APP_DIR.'/pages/view/';
+		$siteprefix = $proto.$_SERVER['SERVER_NAME'].'/'.APP_DIR.'/pages/view/'.$user['User']['username'].'/';
 		$slugLabel = "<span id='urlSlug'><strong>".__('URL Slug: ',true)."</strong>".$siteprefix."</span>\n";
 		echo $this->Form->input('slug',array('div'=>array('class'=>'pageSlug'), 'label'=>$slugLabel, 'value'=>$this->data['Page']['slug']));
 		echo $cksource->ckeditor('content')."\n";

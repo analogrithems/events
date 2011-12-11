@@ -91,7 +91,7 @@ class EventsController extends AppController {
 				//add all the invites
 				$emails = explode("\n",$this->data['Invites']['email']);
 				foreach($emails as $address){
-					$this->data['Invite'][] = array('email'=>$address,'sent'=>'No');
+					$this->data['Invite'][] = array('email'=>$address,'sent'=>'No','opted_out'=>'No');
 				}
 				unset($this->data['Invites']);
 				$this->log("Guest Where listed:".print_r($this->data['Invite'],1),'debug');
@@ -102,7 +102,8 @@ class EventsController extends AppController {
 			unset($this->Event->Invite->validate['event_id']);
 			$this->log("Trying to do a big add:".print_r($this->data,1),'debug');
 			$this->Event->create();
-			if ($sar = $this->Event->saveAll($this->data,array('atomic'=>false))) {
+			if ($sar = $this->Event->saveAll($this->data)) {
+				$this->log("Save result was:".print_r($sar,1).':With :'.print_r($this->data,1),'debug');
 				$this->Session->setFlash(__('The event has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -150,7 +151,8 @@ class EventsController extends AppController {
 		}
 		$locations = $this->Event->Location->find('list');
 		$users = $this->Event->User->find('list');
-		$this->set(compact('locations', 'users'));
+		$revisions = $this->Event->revisions($id);
+		$this->set(compact('locations', 'users', 'revisions'));
 	}
 
 	function admin_delete($id = null) {

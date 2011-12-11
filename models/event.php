@@ -3,6 +3,8 @@ class Event extends AppModel {
 	var $name = 'Event';
 	var $displayField = 'name';
 	var $recursive = 2;
+	//public $actsAs = array('Permissionable.Permissionable' => array('defaultBits'=>480), 'Revisionable.Revisionable');
+	public $actsAs = array('Revisionable.Revisionable');
 	var $validate = array(
 		'name' => array(
 			'notempty' => array(

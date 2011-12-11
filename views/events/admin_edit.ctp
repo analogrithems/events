@@ -35,3 +35,4 @@
 ?>
 </div>
 <div id='showDialog'></div>
+<pre><?php echo print_r($revisions,1); ?></pre>

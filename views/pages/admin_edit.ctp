@@ -5,7 +5,6 @@
 		<div class="widget right">
 	<?php
 		echo $this->Html->link(__('Preview Page', true), array('controller'=>'pages', 'action' => 'view', 'admin'=>false,$this->data['Page']['slug']));
-		echo $this->Form->input('access',array('type'=>'select', 'options'=>array('Private','My Groups', 'Public')));
 	?></div><div class="trippleWide">
 	<?php
 		echo $this->Form->input('title');
@@ -21,12 +20,8 @@
 </div>
 <div id="pageHistory">
 <?php  
-echo "<!--History:".print_r($history,1)."-->\n";
 echo '<h4>Revision history</h4><ul>'; 
-$nr_of_revs = sizeof($history); 
-foreach ($history as $k => $rev) { 
-echo '<li>'.($nr_of_revs-$k).' '.$rev['Post']['version_created'].' '.$html->link('load revision', array('action'=>'edit',$rev['Post']['id'],$rev['Post']['version_id']))."</li>\n";
-} 
+echo '<pre>'.print_r($revisions,1).'</pre>';
 ?>
 </ul>
 </div>
