@@ -1,0 +1,15 @@
+[submodule "plugins/menu_builder"]
+	path = plugins/menu_builder
+	url = git://github.com/torifat/cake-menu_builder.git
+[submodule "plugins/debug_kit"]
+	path = plugins/debug_kit
+	url = git://github.com/cakephp/debug_kit.git
+[submodule "plugins/revisionable"]
+	path = plugins/revisionable
+	url = git@github.com:analogrithems/revisionable.git
+[submodule "plugins/permissionable"]
+	path = plugins/permissionable
+	url = git://github.com/jmcneese/permissionable.git
+[submodule "plugins/idbroker"]
+	path = plugins/idbroker
+	url = git@github.com:analogrithems/idbroker.git
