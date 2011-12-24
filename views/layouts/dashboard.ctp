@@ -40,23 +40,14 @@
 </head>
 <body>
 	<div id="container">
-		<div id="topRightNav">
-		   <ul class="basicNav">
 		<?php
-			if(isset($user)){
-				echo "<li>".$this->Html->link(__('Create Event',true),'/admin/events/add')."</li>\n";
-				echo "<li>".$this->Html->link(__('My Dashboard',true),'/admin/events/index')."</li>\n";
-				echo "<li>".$this->Html->link(__('Logout',true), '/users/logout')."</li>\n";
-				echo "<li>".$this->Html->link(__('How To',true), '/pages/howto')."</li>\n";
-			}else{
-				echo "<li>".$this->Html->link(__('Sign In',true), '/users/logout')."</li>\n";
-				echo "<li>".$this->Html->link(__('How To',true), '/pages/howto')."</li>\n";
-			}
-
-			echo $this->element('showDashBoardMenu');		
+			echo $this->Menu->showMenu('Admin');
+			echo $this->Menu->showMenu('topRightNav');
 		?>
-		   </ul>
-		</div>
+		<div class="clear"></div>
+		<?php
+		?>
+		
 		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>

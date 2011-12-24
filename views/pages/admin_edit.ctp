@@ -21,7 +21,23 @@
 <div id="pageHistory">
 <?php  
 echo '<h4>Revision history</h4><ul>'; 
-echo '<pre>'.print_r($revisions,1).'</pre>';
+print_r($revisions);
+	$i=0;
+	foreach($revisions as $date=>$rev){
+		echo "<span id='rev-{$i}' class='revisions'>{$date}</span>\n";
+		echo "<div id='rev-show-{$i}'>\n";
+		echo "<dl>\n";
+		echo "<dt>".__('URL',1)."</dt>\n";
+		echo "<dd>{$rev['Page']['slug']}</dd>\n";
+		echo "<dt>".__('Author',1)."</dt>\n";
+		echo "<dd>{$rev['User']['username']}</dd>\n";
+		echo "<dt>".__('Title',1)."</dt>\n";
+		echo "<dd>{$rev['Page']['title']}</dd>\n";
+		echo "<dt>".__('Body',1)."</dt>\n";
+		echo "<dd>{$rev['Page']['content']}</dd>\n";
+		echo "</dl>\n";
+		echo "</div>\n";
+		$i++;
+	}	
 ?>
-</ul>
 </div>

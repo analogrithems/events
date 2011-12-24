@@ -2,7 +2,7 @@
 class EventsController extends AppController {
 
 	var $name = 'Events';
-	var $components = array('DebugKit.Toolbar','Idbroker.LDAPAuth'=>array('homeLanding'=>'/'), 'Session');
+	var $components = array('Idbroker.LDAPAuth'=>array('homeLanding'=>'/'), 'Session');
 	var $helpers = array('Html', 'Form', 'Cksource', 'Ajax', 'Js'=>array('Jquery'),'Javascript');
 
 	function index() {
@@ -19,6 +19,7 @@ class EventsController extends AppController {
 	}
 
 	function admin_index() {
+		$this->layout = 'dashboard';
 		$this->Event->recursive = 0;
 		$this->set('events', $this->paginate());
 	}
@@ -76,6 +77,7 @@ class EventsController extends AppController {
         }
 
 	function admin_view($id = null) {
+		$this->layout = 'dashboard';
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid event', true));
 			$this->redirect(array('action' => 'index'));
@@ -84,6 +86,7 @@ class EventsController extends AppController {
 	}
 
 	function admin_add() {
+		$this->layout = 'dashboard';
 		if (!empty($this->data)) {
 			$this->log("Logged in User: ".print_r($this->user,1),'debug');
 			$this->data['Event']['user_id'] = $this->user['User']['id'];
@@ -117,6 +120,7 @@ class EventsController extends AppController {
 	}
 
 	function admin_edit($id = null) {
+		$this->layout = 'dashboard';
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid event', true));
 			$this->redirect(array('action' => 'index'));
@@ -156,6 +160,7 @@ class EventsController extends AppController {
 	}
 
 	function admin_delete($id = null) {
+		$this->layout = 'dashboard';
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for event', true));
 			$this->redirect(array('action'=>'index'));

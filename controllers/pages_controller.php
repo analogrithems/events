@@ -89,6 +89,7 @@ class PagesController extends AppController {
 	    $this->redirect(array('action'=>'view',$id));
 	} 
 	function admin_add() {
+		$this->layout = 'dashboard';
 		if (!empty($this->data)) {
 			$this->data['Page']['user_id'] = $this->user['User']['id'];
 			$this->Page->create();
@@ -104,15 +105,17 @@ class PagesController extends AppController {
 	}
 
 	function admin_edit($id = null) {
+		$this->layout = 'dashboard';
 		$this->Page->id = $id; //important for read,shadow and revisions call bellow 
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid page', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
-			if ($this->Page->save($this->data)) {
-				$this->Session->setFlash(__('The page has been saved', true));
-				$this->redirect(array('action' => 'index'));
+			$this->log("Trying to save: ".print_r($this->data,1),'debug');
+			if ($foo = $this->Page->save($this->data)) {
+				$this->Session->setFlash(__('The page has been saved, with this data:'.print_r($this->data,1).':'.print_r($foo,1), true));
+				//$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The page could not be saved. Please, try again.', true));
 			}
@@ -121,7 +124,7 @@ class PagesController extends AppController {
 		    $this->data = $this->Page->read(); 
 		}
 		$users = $this->Page->User->find('list');
-		$rev = $this->Page->revisions($id);
+		$revisions = $this->Page->revisions($id);
 		$this->set(compact('users','revisions')); 
 	}
 
@@ -138,6 +141,7 @@ class PagesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
         function admin_index() {
+		$this->layout = 'dashboard';
                 $this->Page->recursive = 0;
                 $this->set('pages', $this->paginate());
         }
