@@ -40,7 +40,7 @@ class MenuHelper extends AppHelper{
 						$show = true;
 						break;
 					case 'anonymous': //This is only for users not logged in
-						if(!isset($user['User']['id'])){
+						if(!isset($user['User']) ){
 							$show = true;
 						}else{
 							$show = false;
@@ -48,7 +48,7 @@ class MenuHelper extends AppHelper{
 						}
 						break;
 					case 'authed':
-						if(isset($user['User']['id'])){
+						if(isset($user['User']) && !empty($user['User'])){
 							$show = true;
 						}else{
 							$show = false;

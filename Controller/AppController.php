@@ -23,9 +23,6 @@ class AppController extends Controller {
 
 		$user = $this->Auth->user();
 		$this->log("Auth user:".print_r($user,true),'debug');
-		if (!empty($user)) {
-			Configure::write('User', $user[$this->Auth->getModel()->alias]);
-		}
 
                 $this->user = $user;
                 $this->set('user', $this->user);

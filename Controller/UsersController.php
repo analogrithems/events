@@ -81,8 +81,7 @@ class UsersController extends AppController {
 	}
 	function logout(){
                 $this->log("Destroying session",'debug');
-                $this->Session->destroy();
-		$this->redirect('/');
+		$this->redirect('/idbroker/ldap_auths/logout');
 	}
 	
 	function signup(){
