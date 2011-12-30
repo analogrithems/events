@@ -1,4 +1,4 @@
 tmp/logs/*
 tmp/cache/models/*
 tmp/cache/persistent/*
-config/database.php
+Config/Database.php

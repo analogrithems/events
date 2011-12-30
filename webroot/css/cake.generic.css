@@ -271,7 +271,6 @@ fieldset fieldset div {
 }
 form div {
 	clear: both;
-	margin-bottom: 1em;
 	padding: .5em;
 	vertical-align: text-top;
 }
@@ -342,6 +341,76 @@ input[type=submit] {
 	width: auto;
 }
 
+
+/** Cutom form**/
+.form{
+	font-family: Verdana;    
+	font-size:1em;
+}
+
+.form p.formtitle{
+	color: #026475;
+	font-size:1.3em;
+	font-weight: bold;
+}
+
+.form fieldset{
+	width:40em;
+	border:1px solid #FFE545;	
+	background-image: url(../img/Contact.png);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+.form fieldset legend{
+	color: #026475;
+}
+
+.formfield{
+	width:25em;
+	padding:5px;
+}
+
+.formfield label{
+	display:block;
+	float:left;
+	width:12em;
+	padding:1px;
+	text-align:right;
+}
+
+.formfield input, .formfield  select{
+	padding:0.15em;
+	width:14em;
+	border:1px solid #ddd;
+	
+	font-family: Verdana;    
+	font-size:1em;
+	
+	-moz-border-radius:0.4em;
+	-khtml-border-radius:0.4em;
+}
+
+.formfield input:hover, input:focus {
+	border-color:#c5c5c5;
+	background:#f6f6f6;
+} 
+
+.required input {
+	border:1px solid #FBB829;
+}
+
+.form .submit input{
+	font-family: Verdana;    
+	font-size:1em;
+	margin-top: 0.3em;
+}
+
+.formerror{
+	position:relative;
+	left:12.1em;
+	color:#FBB829;
+}
 /** Notices and Errors **/
 div.message {
 	clear: both;
